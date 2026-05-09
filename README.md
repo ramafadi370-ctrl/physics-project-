@@ -320,6 +320,6 @@ For issues and questions:
 
 ---
 
-**Built with ❤️ by [Rama Ahmed](https://github.com/ramaahmed)**
+**Built with ❤️ by [RamaA and RamaF](https://github.com/ramaahmed)**
 
 **Version**: 2.0.0 | **Last Updated**: April 2026
