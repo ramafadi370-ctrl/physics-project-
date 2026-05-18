@@ -21,8 +21,8 @@ export default async function handler(req) {
   }
 
   const { messages, pdfContext } = data;
-
   const groqMessages = [];
+
   if (pdfContext) {
     groqMessages.push({
       role: 'system',
@@ -80,7 +80,9 @@ export default async function handler(req) {
           const parsed = JSON.parse(dataStr);
           const content = parsed.choices?.[0]?.delta?.content || '';
           if (content) {
-            await writer.write(encoder.encode(`data: ${JSON.stringify({ content, done: false })}\n\n`));
+            await writer.write(
+              encoder.encode(`data: ${JSON.stringify({ content, done: false })}\n\n`)
+            );
           }
         } catch {
           // ignore malformed chunks
