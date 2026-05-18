@@ -1,29 +1,43 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
+import { Switch, Route, Router as WouterRouter } from "wouter";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Toaster } from "@/components/ui/toaster";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import NotFound from "@/pages/not-found";
+import { Layout } from "@/components/Layout";
+import Home from "@/pages/Home";
+import CircuitSimulator from "@/pages/CircuitSimulator";
+import Flashcards from "@/pages/Flashcards";
+import Chat from "@/pages/Chat";
+import StudyGuide from "@/pages/StudyGuide";
 
-import { useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useStore } from './store/useStore';
-import Dashboard from './pages/Dashboard';
+const queryClient = new QueryClient();
 
-export default function App() {
-  const { i18n } = useTranslation();
-  const { settings } = useStore();
-
-  useEffect(() => {
-    i18n.changeLanguage(settings.language);
-    document.documentElement.dir = settings.rtl ? 'rtl' : 'ltr';
-    document.documentElement.lang = settings.language;
-    
-    // Core dark mode by default
-    document.documentElement.classList.add('dark');
-  }, [settings.language, settings.rtl, i18n]);
-
+function Router() {
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-gray-100 selection:bg-blue-500/30 font-sans">
-      <Dashboard />
-    </div>
+    <Switch>
+      <Route path="/" component={Home} />
+      <Route path="/circuit" component={CircuitSimulator} />
+      <Route path="/flashcards" component={Flashcards} />
+      <Route path="/chat" component={Chat} />
+      <Route path="/study-guide" component={StudyGuide} />
+      <Route component={NotFound} />
+    </Switch>
   );
 }
+
+function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
+          <Layout>
+            <Router />
+          </Layout>
+        </WouterRouter>
+        <Toaster />
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
+}
+
+export default App;
